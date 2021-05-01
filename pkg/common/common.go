@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"image/color"
 )
 
 const (
@@ -25,34 +24,30 @@ type Sprite interface {
 	Draw(screen *ebiten.Image) error
 }
 
-type ColorSprite struct {
+type FileImageSprite struct {
 	x int
 	y int
 	width int
 	height int
-
-	color color.Color
 }
 
-func NewColorSprite(x, y, width, height int, color color.Color) *ColorSprite {
+func NewFileImageSprite(x, y, width, height int, imageSrc string) *FileImageSprite {
 	if backgroundImage == nil {
-		img, _, err := ebitenutil.NewImageFromFile("rsc/background.png")
+		img, _, err := ebitenutil.NewImageFromFile(imageSrc)
 		if err != nil {
 			panic(fmt.Sprintf("Could not load image of background due to: %v\n", err))
 		}
 		backgroundImage = img
 	}
-	return &ColorSprite{
+	return &FileImageSprite{
 		x: x,
 		y: y,
 		width: width,
 		height: height,
-		color: color,
 	}
 }
 
-func (c *ColorSprite) Draw(screen *ebiten.Image) error {
-	ebitenutil.DrawRect(screen, float64(c.x), float64(c.y), float64(c.width), float64(c.height), c.color)
+func (c *FileImageSprite) Draw(screen *ebiten.Image) error {
 	edgeOpt := &ebiten.DrawImageOptions{}
 	screen.DrawImage(backgroundImage, edgeOpt)
 	return nil

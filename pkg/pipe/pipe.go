@@ -8,6 +8,7 @@ import (
 	"github.com/omer-dayan/flappyai/pkg/common"
 	"image/color"
 	_ "image/png"
+	"math/rand"
 )
 
 const (
@@ -32,7 +33,8 @@ type Pipe struct {
 	camera       camera.Camera
 }
 
-func New(id, x, edgeY int, camera camera.Camera) []*Pipe {
+func New(id, x int, camera camera.Camera) []*Pipe {
+	edgeY := rand.Intn(common.ScreenHeight * 0.6) + common.ScreenHeight * 0.1
 	if edgeImage == nil {
 		img, _, err := ebitenutil.NewImageFromFile("rsc/pipeEdge.png")
 		if err != nil {

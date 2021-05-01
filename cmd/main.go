@@ -9,6 +9,6 @@ import (
 func main() {
 	flappyGame := game.NewFlappy()
 	if err := ebiten.RunGame(*flappyGame); err != nil {
-		fmt.Println(fmt.Sprintf("ERROR: %v", err))
+		fmt.Printf("Erro ocured while initializing the program: %v\n", err)
 	}
 }
