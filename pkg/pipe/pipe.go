@@ -17,6 +17,8 @@ const (
 	pipeEdgeImageHeight = 37
 	pipeAndEdgeImageVisualDiff = 2
 	pipeImageHeight = 640
+	pipeEdgeScreenRange = 0.6
+	pipeEdgeScreenTopMargin = 0.1
 )
 
 var (
@@ -34,7 +36,7 @@ type Pipe struct {
 }
 
 func New(id, x int, camera camera.Camera) []*Pipe {
-	edgeY := rand.Intn(common.ScreenHeight * 0.6) + common.ScreenHeight * 0.1
+	edgeY := rand.Intn(common.ScreenHeight * pipeEdgeScreenRange) + common.ScreenHeight * pipeEdgeScreenTopMargin
 	if edgeImage == nil {
 		img, _, err := ebitenutil.NewImageFromFile("rsc/pipeEdge.png")
 		if err != nil {

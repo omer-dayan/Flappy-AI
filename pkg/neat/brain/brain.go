@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	mutationFactor = 0.25
+	mutationFactor = 0.2
 	mutationRate = 0.3
-	Bias = 100
+	randomFirstWeightRange = 0.15
 )
 
 var (
@@ -76,8 +76,7 @@ func NewBrain() *Brain {
 	distanceYTopPipeNode := newInputNode("Distance Y From Top Pipe", output)
 	distanceXBottomPipeNode := newInputNode("Distance X From Bottom Pipe", output)
 	distanceYBottomPipeNode := newInputNode("Distance Y From Bottom Pipe", output)
-	bias := newInputNode("Bias", output)
-	inputs := []*inputNode{distanceYNode, distanceXTopPipeNode, distanceYTopPipeNode, distanceXBottomPipeNode, distanceYBottomPipeNode, bias}
+	inputs := []*inputNode{distanceYNode, distanceXTopPipeNode, distanceYTopPipeNode, distanceXBottomPipeNode, distanceYBottomPipeNode}
 	return &Brain{
 		inputNodes: inputs,
 		outputNode: output,
@@ -85,9 +84,9 @@ func NewBrain() *Brain {
 }
 
 func newInputNode(name string, node *outputNode) *inputNode {
-	w := rand.Float64() * 0.3 - 0.15
+	w := rand.Float64() * (2 * randomFirstWeightRange) - randomFirstWeightRange
 	connection := &connection{
-		weight: float64(w),
+		weight: w,
 		outputNode: node,
 	}
 	return &inputNode{
@@ -124,7 +123,6 @@ func (b *Brain) ShouldIJump(distanceFromGround, distanceXFromUpperPipe, distance
 	b.inputNodes[2].activate(distanceYFromUpperPipe)
 	b.inputNodes[3].activate(distanceXFromBottomPipe)
 	b.inputNodes[4].activate(distanceYFromBottomPipe)
-	b.inputNodes[5].activate(Bias)
 
 	return b.getBooleanOutput()
 }
